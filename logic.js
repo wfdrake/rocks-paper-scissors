@@ -15,82 +15,106 @@ function computerPlay() {
     }
 }
 
+
+let roundsPlayed = 0;
+const totalRounds = 5;
+let playerWins = 0;
+let computerWins = 0;
+let ties = 0;
 function playRound(playerSelection, computerSelection) {
+    const container = document.querySelector(".container");
+    let result = document.createElement("p");
+
+    if (roundsPlayed >= totalRounds) {
+        result.textContent = `${roundsPlayed} rounds have already been played.
+                Refresh to play again!`
+        container.appendChild(result);
+        return;
+    }
     playerSelection = playerSelection.toLowerCase();
 
     if (playerSelection === computerSelection) {
-        console.log("Round tied.");
-        return 1;
+        result.textContent = "Round tied.";
+        ties++;
     }
-    
-    if (playerSelection === "rock") {
+    else if (playerSelection === "rock") {
         if (computerSelection === "paper") {
-            console.log("Computer wins this round! Paper beats rock.");
-            return 2;
+            result.textContent = "Computer wins this round! Paper beats rock.";
+            computerWins++;
         }
         else {
-            console.log("You win this round! Rock beats scissors.");
-            return 0;
+            result.textContent = "You win this round! Rock beats scissors.";
+            playerWins++;
         }
     }
     else if (playerSelection === "paper") {
         if (computerSelection === "rock") {
-            console.log("You win this round! Paper beats rock.");
-            return 0;
+            result.textContent = "You win this round! Paper beats rock.";
+            playerWins++;
         }
         else {
-            console.log("Computer wins this round! Scissors bears paper.");
-            return 2;
+            result.textContent = "Computer wins this round! Scissors bears paper.";
+            computerWins++;
         }
     }
     else if (playerSelection === "scissors") {
         if (computerSelection === "rock") {
-            console.log("Computer wins this round! Rock beats scissors.");
-            return 2;
-        }
-        else {
-            console.log("You win this round! Scissors bears paper.");
-            return 0;
-        }
-    }
-    else {
-        console.log("Bad input! Computer auto wins :)");
-        return 2;
-    }
-
-}
-
-function game() {
-    let playerWins = 0;
-    let computerWins = 0;
-    let ties = 0;
-
-    for (let i = 0; i < 5; i++) {
-        let playerSelection = prompt("Rock, paper, or scissors?");
-        let roundResult = playRound(playerSelection, computerPlay());
-        if (roundResult == 0) {
-            playerWins++;
-        }
-        else if (roundResult == 1) {
-            ties++;
-        }
-        else {
+            result.textContent = "Computer wins this round! Rock beats scissors.";
             computerWins++;
         }
-    }
-
-    if (playerWins > computerWins) {
-        console.log("Congrats! You are the winner.");
-    }
-    else if (playerWins === computerWins) {
-        console.log("It's a tie!");
+        else {
+            result.textContent = "You win this round! Scissors bears paper.";
+            playerWins++;
+        }
     }
     else {
-        console.log("The computer takeover is real!");
+        result.textContent = "Bad input! Computer auto wins :)";
+        computerWins++;
     }
 
-    console.log(`Final score:
-    You       -  ${playerWins}
-    Computer  -  ${computerWins}
-    Ties      -  ${ties}`);
+    roundsPlayed++;
+    container.appendChild(result);
+
+    checkIfOver();
 }
+
+function checkIfOver() {
+    const container = document.querySelector(".container");
+    let ending = document.createElement("p");
+
+    if (roundsPlayed >= totalRounds) {
+        if (playerWins > computerWins) {
+            ending.textContent = "Congrats! You are the winner.";
+        }
+        else if (playerWins === computerWins) {
+            ending.textContent = "It's a tie!";
+        }
+        else {
+            ending.textContent = "The computer takeover is real!";
+        }
+        container.appendChild(ending);
+
+        let finalScore = document.createElement("p");
+        finalScore.textContent = `Final score:
+                You       -  ${playerWins}
+                Computer  -  ${computerWins}
+                Ties      -  ${ties}`;
+        container.appendChild(finalScore);
+    }
+}
+
+const rockButton = document.getElementById('rockButton');
+const paperButton = document.getElementById("paperButton");
+const scissorsButton = document.getElementById("scissorsButton");
+
+rockButton.addEventListener('click', () => {
+    playRound("rock", computerPlay());
+});
+
+paperButton.addEventListener('click', () => {
+    playRound("paper", computerPlay());
+});
+
+scissorsButton.addEventListener('click', () => {
+    playRound("scissors", computerPlay());
+});
