@@ -1,9 +1,8 @@
 Author: William Drake
-Last edit: 07/03/21
+Last edit: 07/21/21
 
 Description:
-Rocks paper scissors in the javascript console. Really quick project to get more comfortable with javascript syntax.
+Rocks paper scissors in a webpage. Really quick project to get more comfortable with javascript syntax, and DOM manipulaton.
 
 Directions:
-Open up your browser's javascript console and type 'game();' (without the
-single quotes).
+Hit the buttons to play!
